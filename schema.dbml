@@ -1,0 +1,41 @@
+Project autoservice {
+  database_type: 'SQLite'
+  Note: 'Учёт клиентов, автомобилей, услуг и заказ-нарядов'
+}
+
+Table clients {
+  id integer [pk, increment]
+  full_name text [not null]
+  phone text [not null]
+  email text
+}
+
+Table cars {
+  id integer [pk, increment]
+  client_id integer [not null, ref: > clients.id]
+  brand text [not null]
+  model text [not null]
+  production_year integer [not null]
+  plate text [not null, unique]
+}
+
+Table services {
+  id integer [pk, increment]
+  name text [not null, unique]
+  base_price real [not null]
+}
+
+Table orders {
+  id integer [pk, increment]
+  car_id integer [not null, ref: > cars.id]
+  opened_at text [not null]
+  status text [not null]
+  comment text
+}
+
+Table order_services {
+  order_id integer [pk, ref: > orders.id]
+  service_id integer [pk, ref: > services.id]
+  quantity integer [not null]
+  unit_price real [not null]
+}

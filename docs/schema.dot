@@ -1,0 +1,14 @@
+digraph AutoService {
+  graph [rankdir=LR, bgcolor="white", pad="0.3", nodesep="0.65", ranksep="1.0", fontname="DejaVu Sans"];
+  node [shape=record, style="rounded,filled", color="#4a6882", fillcolor="#edf5fb", fontname="DejaVu Sans", fontsize=12, margin="0.17"];
+  edge [color="#557b9c", arrowsize=0.8, penwidth=1.6];
+  clients [label="{КЛИЕНТЫ (clients)|PK  id : INTEGER\lfull_name : TEXT\lphone : TEXT\lemail : TEXT\l}"];
+  cars [label="{АВТОМОБИЛИ (cars)|PK  id : INTEGER\lFK  client_id : INTEGER\lbrand : TEXT\lmodel : TEXT\lproduction_year : INTEGER\lplate : TEXT UNIQUE\l}"];
+  orders [label="{ЗАКАЗЫ (orders)|PK  id : INTEGER\lFK  car_id : INTEGER\lopened_at : TEXT\lstatus : TEXT\lcomment : TEXT\l}"];
+  os [label="{РАБОТЫ В ЗАКАЗЕ (order_services)|PK, FK  order_id : INTEGER\lPK, FK  service_id : INTEGER\lquantity : INTEGER\lunit_price : REAL\l}"];
+  services [label="{УСЛУГИ (services)|PK  id : INTEGER\lname : TEXT UNIQUE\lbase_price : REAL\l}"];
+  clients -> cars [label="1 : N"];
+  cars -> orders [label="1 : N"];
+  orders -> os [label="1 : N"];
+  services -> os [label="1 : N"];
+}
