@@ -61,9 +61,19 @@ def init_database(db_path=None):
             unit_price REAL NOT NULL CHECK(unit_price >= 0),
             PRIMARY KEY (order_id, service_id)
         );
+
+        CREATE TABLE IF NOT EXISTS users (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            username TEXT NOT NULL UNIQUE,
+            password_hash TEXT NOT NULL,
+            role TEXT NOT NULL CHECK(role IN ('admin', 'user')),
+            client_id INTEGER REFERENCES clients(id)
+        );
         CREATE INDEX IF NOT EXISTS idx_cars_client ON cars(client_id);
         CREATE INDEX IF NOT EXISTS idx_orders_car ON orders(car_id);
         ''')
+    from auth import ensure_admin
+    ensure_admin(db_path)
 
 
 def _insert(sql, params, db_path=None):
